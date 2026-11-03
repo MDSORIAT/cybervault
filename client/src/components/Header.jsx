@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ShieldCheck, Wifi, WifiOff } from 'lucide-react';
 import { formatBytes } from '../api.js';
+import InstallButton from './InstallButton.jsx';
 
 export default function Header({ online, vault }) {
   const [now, setNow] = useState(new Date());
@@ -32,6 +33,9 @@ export default function Header({ online, vault }) {
           <p className="flex items-center justify-end gap-1 text-neon/70">
             <ShieldCheck size={14} /> SHIELDS: ACTIVE
           </p>
+          <div className="flex justify-end pt-1">
+            <InstallButton />
+          </div>
         </div>
       </div>
 
