@@ -1,7 +1,7 @@
 CYBERVAULT — STEP-BY-STEP DEVELOPMENT DOCUMENTATION
 ===================================================
 
-Requirements: Node.js 20.6+ (uses --env-file-if-exists; tested on Node 24).
+Requirements: Node.js 22.9+ (uses --env-file-if-exists; tested on Node 24).
 
 1. INSTALL
    npm run install:all

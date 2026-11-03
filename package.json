@@ -2,7 +2,7 @@
   "name": "cybervault",
   "private": true,
   "engines": {
-    "node": ">=20.6"
+    "node": "22.x"
   },
   "scripts": {
     "install:all": "npm install && npm --prefix server install && npm --prefix client install",
