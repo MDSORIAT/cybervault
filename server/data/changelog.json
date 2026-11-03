@@ -1,0 +1,7 @@
+[
+  { "id": 1, "timestamp": "2026-10-29T21:06:00.000Z", "author": "soriatullah", "type": "init", "message": "Repository initialised" },
+  { "id": 2, "timestamp": "2026-11-03T10:00:00.000Z", "author": "Claude", "type": "feature", "message": "Scaffolded CyberVault: Express API + Vite/React/Tailwind client" },
+  { "id": 3, "timestamp": "2026-11-03T10:00:00.000Z", "author": "Claude", "type": "feature", "message": "Uploads: 50MB per-file limit, 50MB global quota, 48h auto-expiry" },
+  { "id": 4, "timestamp": "2026-11-03T10:00:00.000Z", "author": "Claude", "type": "security", "message": "Rate limiting, API key, CORS allowlist, helmet, extension + magic-byte checks, name sanitisation" },
+  { "id": 5, "timestamp": "2026-11-03T10:00:00.000Z", "author": "Claude", "type": "feature", "message": "Live vault feed over Server-Sent Events" }
+]

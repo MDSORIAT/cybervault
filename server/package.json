@@ -1,0 +1,18 @@
+{
+  "name": "cybervault-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "log": "node --env-file-if-exists=.env scripts/log.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "mongodb": "^6.22.0",
+    "multer": "^2.0.2"
+  }
+}

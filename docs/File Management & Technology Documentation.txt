@@ -1,0 +1,40 @@
+CYBERVAULT — FILE MANAGEMENT & TECHNOLOGY DOCUMENTATION
+======================================================
+
+STORAGE LAYOUT
+   server/uploads/<uuid>        raw file bytes (no extension, never executed)
+   server/data/files.json       [{ id, studentName, originalName, storedName, size, uploadedAt }]
+   storedName is never sent to the client.
+
+LIMITS (server/src/config.js)
+   MAX_FILE_BYTES      50MB   per file
+   MAX_TOTAL_BYTES     50MB   sum of all active files
+   FILE_TTL_MS         48h    lifetime of each file
+   CLEANUP_INTERVAL_MS 5 min  how often expiry is checked
+
+QUOTA ENFORCEMENT
+   Hard ceiling. When the vault is full, new uploads are blocked with
+   STORAGE_QUOTA_EXCEEDED until older files expire. Nothing is evicted early.
+   The check runs inside withLock(), so concurrent uploads can't overshoot.
+   The UI shows live usage so students know when space frees up.
+
+48-HOUR AUTO-DELETION (store.js: purgeExpired)
+   - Runs once at server start, then every 5 minutes (setInterval, unref'd).
+   - Removes records older than 48h along with their files, then pushes a fresh
+     snapshot to all live clients.
+   - Also removes orphan blobs (files on disk with no record, e.g. after a crash)
+     once they are over 1 hour old.
+   - Expired files are also hidden from listings and downloads right away, even
+     between cleanup runs.
+   Worst-case deletion delay is about 5 minutes after expiry. If the server was
+   down, cleanup catches up on the next boot.
+
+LIVE UPDATES
+   GET /api/stream is a Server-Sent Events channel. On connect it sends the current
+   snapshot, then re-sends it after every upload or cleanup. A ping every 25s keeps
+   proxies from closing it. EventSource reconnects automatically.
+
+SCALING NOTES
+   The JSON store and in-process lock assume ONE server instance. To scale out,
+   move metadata to MongoDB or Postgres, files to S3-compatible storage (with a
+   lifecycle rule for the 48h expiry), and fan out SSE through Redis pub/sub.

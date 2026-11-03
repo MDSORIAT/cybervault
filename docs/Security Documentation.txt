@@ -1,0 +1,49 @@
+CYBERVAULT — SECURITY DOCUMENTATION
+===================================
+
+1. API KEY (security.js: requireApiKey)
+   Every /api route requires header x-api-key (EventSource can't send headers, so
+   /api/stream also accepts ?key=). Wrong or missing key -> 401 ACCESS_DENIED.
+   IMPORTANT: the key ships inside the frontend bundle, so anyone who opens the site
+   can read it. It stops casual scripts and hot-linking. It is NOT user
+   authentication. For real access control add logins (e.g. school SSO) or put the
+   site behind a VPN or an access proxy.
+
+2. CORS
+   Only origins listed in CORS_ORIGINS get Access-Control-Allow-Origin. Other
+   websites can't call the API from a visitor's browser.
+
+3. RATE LIMITING (express-rate-limit)
+   - All API routes: 120 requests / minute / IP.
+   - POST /api/upload: 10 uploads / 15 minutes / IP -> 429 RATE_LIMIT_EXCEEDED.
+
+4. FILE VALIDATION (in this order)
+   a. Content-Length pre-check: rejects early if the request could never fit in the quota.
+   b. Extension allowlist: .pdf .docx .zip .txt .png .jpg .jpeg .dwg .dxf .html .css .js
+      (everything else, including .exe .sh .bat .svg, gets 415 FILE_TYPE_REJECTED).
+      .html/.js uploads are safe for the site because downloads are never rendered (see 6),
+      but a downloaded .js can still run if someone double-clicks it on Windows.
+   c. multer limits: 1 file, 50MB max (413 FILE_TOO_LARGE), 2 fields, 1KB per field.
+   d. Magic bytes: rejects Windows PE (MZ), ELF, Mach-O and #! scripts whatever
+      the extension. PDF/PNG/JPG/ZIP/DOCX must start with the right signature, .dwg must
+      start with "AC10", and text files (.txt .dxf .html .css .js) must not contain NUL
+      bytes -> 415 MALICIOUS_CONTENT_DETECTED.
+   e. Quota check under the lock -> 507 STORAGE_QUOTA_EXCEEDED.
+   Any rejected file is deleted from disk straight away.
+   NOT INCLUDED: antivirus scanning. ZIP/DOCX contents are not inspected. For
+   that, add ClamAV (clamscan) as step (f).
+
+5. INPUT SANITISATION
+   - Student name: NFKC-normalised, allowlist regex ^[\p{L}\p{N} .'-]{2,60}$.
+     Characters like < > { } $ are rejected, which blocks XSS and NoSQL operator injection.
+   - Filename: basename only, control chars and <>:"|?*`$ replaced, max 120 chars.
+   - No database queries are built from input (JSON file store), so SQL injection
+     doesn't apply. React escapes everything it renders.
+
+6. SAFE DOWNLOADS
+   Files are served as application/octet-stream with Content-Disposition: attachment
+   plus helmet's X-Content-Type-Options: nosniff, so an uploaded file is never run
+   or rendered on the site's origin.
+
+7. HEADERS
+   helmet() sets CSP, HSTS, frame-ancestors and similar. x-powered-by is disabled.

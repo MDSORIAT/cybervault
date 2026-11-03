@@ -1,0 +1,33 @@
+CYBERVAULT — PROJECT FEATURES & PAGE DOCUMENTATION
+==================================================
+
+The app is a single page made of four stacked panels (client/src/components/).
+
+1. HEADER (Header.jsx)
+   - Glitching "CYBERVAULT" title, live 24h clock and date (updates every second).
+   - LINK: ONLINE/OFFLINE, which shows whether the live SSE stream is connected.
+   - Vault storage bar showing used / 50MB. It turns yellow above 70% and red above 90%.
+
+2. UPLOAD TERMINAL (UploadTerminal.jsx)
+   - STUDENT_NAME input: 2-60 chars; letters (any language), digits, space, . ' - only.
+   - Dropzone: click, keyboard (Enter/Space) or drag and drop. One file at a time.
+   - Client-side pre-checks (the server re-checks all of them):
+       INVALID_STUDENT_NAME, NO_FILE_SELECTED, FILE_TYPE_REJECTED,
+       FILE_TOO_LARGE (>50MB), STORAGE_QUOTA_EXCEEDED (would push vault over 50MB).
+   - Progress bar while uploading. The output log keeps the last 6 lines:
+       [OK] ... in green, [ERROR: CODE] in red.
+
+3. LIVE VAULT FEED (VaultFeed.jsx)
+   - Fed by GET /api/stream (Server-Sent Events). Every upload or expiry pushes a fresh
+     snapshot to every connected browser, so no reload or polling is needed.
+   - Newest first. Each row shows a type icon, filename, student, size, upload time,
+     a T-minus countdown to deletion (red under 6h) and a download button.
+
+4. PROJECT TRACKING LOG (ChangeLog.jsx)
+   - Collapsible. It loads /api/changelog the first time it is opened.
+   - Shows [timestamp] TYPE message — author, colour-coded by type.
+
+ERROR CODES SHOWN TO USERS
+   ACCESS_DENIED, RATE_LIMIT_EXCEEDED, FILE_TYPE_REJECTED, FILE_TOO_LARGE,
+   STORAGE_QUOTA_EXCEEDED, MALICIOUS_CONTENT_DETECTED, INVALID_STUDENT_NAME,
+   NO_FILE_RECEIVED, FILE_NOT_FOUND, NETWORK_UNREACHABLE, INTERNAL_ERROR

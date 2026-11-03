@@ -1,0 +1,38 @@
+CYBERVAULT — STEP-BY-STEP DEVELOPMENT DOCUMENTATION
+===================================================
+
+Requirements: Node.js 20.6+ (uses --env-file-if-exists; tested on Node 24).
+
+1. INSTALL
+   npm run install:all
+
+2. CONFIGURE (optional in dev)
+   server/.env  <- copy server/.env.example
+       PORT=4000
+       API_KEY=<long random string>
+       CORS_ORIGINS=http://localhost:5173,https://your-domain
+   client/.env  <- copy client/.env.example
+       VITE_API_KEY=<same as API_KEY>
+
+3. DEVELOP
+   npm run dev
+   - Express runs with node --watch on :4000.
+   - Vite runs on :5173 and proxies /api to :4000, so the browser sees the same origin.
+
+4. BUILD + RUN IN PRODUCTION
+   npm run build      -> client/dist
+   npm start          -> Express serves /api and client/dist on :4000
+   Put it behind a reverse proxy (nginx/Caddy) with HTTPS. 'trust proxy' is set to 1
+   so the rate limiter sees real client IPs. Make sure the proxy does not buffer
+   SSE (nginx: proxy_buffering off for /api/stream).
+
+5. HOW IT FITS TOGETHER
+   - Tailwind v4 through @tailwindcss/vite. Theme tokens (neon, cyan, void, danger)
+     are in client/src/index.css under @theme.
+   - multer diskStorage writes each upload to server/uploads/<random UUID>.
+     The original name is kept only as metadata, so user input never becomes a path.
+   - Metadata lives in server/data/files.json. All writes go through withLock() in
+     store.js, which stops two parallel uploads from both passing the quota check.
+
+6. ADD A TRACKING LOG ENTRY AFTER EACH CHANGE
+   cd server && npm run log -- feature "Describe what you built" "your-name"

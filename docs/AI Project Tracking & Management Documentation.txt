@@ -1,0 +1,31 @@
+CYBERVAULT — AI PROJECT TRACKING & MANAGEMENT DOCUMENTATION
+==========================================================
+
+PURPOSE
+   One persistent, machine-readable history of what was built, by whom and when,
+   so any developer or AI agent can catch up on the project quickly.
+   It is shown in the app's "project_tracking.log" panel and at GET /api/changelog.
+
+LOCATION
+   server/data/changelog.json (committed to git)
+
+ENTRY FORMAT
+   {
+     "id": 6,                                 // auto-increment
+     "timestamp": "2026-11-03T10:00:00.000Z", // ISO 8601, UTC
+     "author": "soriatullah",                 // person or agent name
+     "type": "feature",                       // feature | fix | security | deploy | docs | chore
+     "message": "Short, past-tense summary of the change"
+   }
+
+ADDING ENTRIES
+   cd server
+   npm run log -- feature "Added dark/light toggle" "soriatullah"
+   npm run log -- deploy  "Deployed v1.0 to production" "ci-bot"
+
+RULES FOR AI AGENTS WORKING ON THIS REPO
+   1. Read this file, README.md and changelog.json before making changes.
+   2. After each meaningful change (feature, fix, security change, deploy),
+      append exactly one entry with npm run log.
+   3. Never edit or delete past entries. Add a correcting entry instead.
+   4. Keep messages to one line and say what changed, not how.
