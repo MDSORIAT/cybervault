@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import Header from './components/Header.jsx';
 import UploadTerminal from './components/UploadTerminal.jsx';
 import VaultFeed from './components/VaultFeed.jsx';
-import ChangeLog from './components/ChangeLog.jsx';
 import { openStream } from './api.js';
 
 export default function App() {
@@ -23,7 +22,6 @@ export default function App() {
       <Header online={online} vault={vault} />
       <UploadTerminal vault={vault} />
       <VaultFeed files={vault.files} />
-      <ChangeLog />
       <footer className="text-center text-xs text-neon/40 pb-4">
         // files self-destruct 48h after upload · 50MB shared vault
       </footer>
