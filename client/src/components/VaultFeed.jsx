@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Database, Download, FileText, FileArchive, FileImage, FileCode, DraftingCompass, File } from 'lucide-react';
+import { Database, Download, FileText, FileArchive, FileImage, FileCode, FileSpreadsheet, Presentation, DraftingCompass, File } from 'lucide-react';
 import { downloadFile, errorCode, formatBytes } from '../api.js';
 
 const ICONS = { pdf: FileText, docx: FileText, txt: FileText, zip: FileArchive, png: FileImage, jpg: FileImage, jpeg: FileImage,
+  xlsx: FileSpreadsheet, xls: FileSpreadsheet, pptx: Presentation,
   html: FileCode, css: FileCode, js: FileCode, dwg: DraftingCompass, dxf: DraftingCompass };
 
 function timeLeft(expiresAt, now) {

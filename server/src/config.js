@@ -23,4 +23,4 @@ export const DATA_DIR = path.join(root, 'data');
 export const CLIENT_DIST = path.join(root, '..', 'client', 'dist');
 
 export const TEXT_EXTENSIONS = new Set(['.txt', '.dxf', '.html', '.css', '.js']);
-export const ALLOWED_EXTENSIONS = new Set(['.pdf', '.docx', '.zip', '.png', '.jpg', '.jpeg', '.dwg', ...TEXT_EXTENSIONS]);
+export const ALLOWED_EXTENSIONS = new Set(['.pdf', '.docx', '.xlsx', '.xls', '.pptx', '.zip', '.png', '.jpg', '.jpeg', '.dwg', ...TEXT_EXTENSIONS]);
