@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const API_KEY = import.meta.env.VITE_API_KEY || 'dev-cybervault-key';
 export const MAX_FILE_BYTES = 50 * 1024 * 1024;
-export const ALLOWED_EXTENSIONS = ['.pdf', '.docx', '.xlsx', '.xls', '.pptx', '.zip', '.txt', '.png', '.jpg', '.jpeg', '.dwg', '.dxf', '.html', '.css', '.js'];
+export const ALLOWED_EXTENSIONS = ['.pdf', '.docx', '.xlsx', '.xls', '.pptx', '.zip', '.txt', '.png', '.jpg', '.jpeg', '.dwg', '.dxf', '.html', '.css', '.js', '.py', '.java', '.c', '.cpp', '.h', '.pl'];
 
 export const api = axios.create({ baseURL: '/api', headers: { 'x-api-key': API_KEY } });
 

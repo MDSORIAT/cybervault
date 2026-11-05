@@ -22,5 +22,8 @@ export const UPLOAD_DIR = process.env.UPLOAD_DIR || path.join(root, 'uploads');
 export const DATA_DIR = path.join(root, 'data');
 export const CLIENT_DIST = path.join(root, '..', 'client', 'dist');
 
-export const TEXT_EXTENSIONS = new Set(['.txt', '.dxf', '.html', '.css', '.js']);
+export const TEXT_EXTENSIONS = new Set([
+  '.txt', '.dxf', '.html', '.css', '.js',
+  '.py', '.java', '.c', '.cpp', '.h', '.pl', // source code files
+]);
 export const ALLOWED_EXTENSIONS = new Set(['.pdf', '.docx', '.xlsx', '.xls', '.pptx', '.zip', '.png', '.jpg', '.jpeg', '.dwg', ...TEXT_EXTENSIONS]);

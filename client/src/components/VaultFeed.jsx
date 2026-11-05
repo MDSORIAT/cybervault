@@ -4,7 +4,9 @@ import { downloadFile, errorCode, formatBytes } from '../api.js';
 
 const ICONS = { pdf: FileText, docx: FileText, txt: FileText, zip: FileArchive, png: FileImage, jpg: FileImage, jpeg: FileImage,
   xlsx: FileSpreadsheet, xls: FileSpreadsheet, pptx: Presentation,
-  html: FileCode, css: FileCode, js: FileCode, dwg: DraftingCompass, dxf: DraftingCompass };
+  html: FileCode, css: FileCode, js: FileCode,
+  py: FileCode, java: FileCode, c: FileCode, cpp: FileCode, h: FileCode, pl: FileCode,
+  dwg: DraftingCompass, dxf: DraftingCompass };
 
 function timeLeft(expiresAt, now) {
   const ms = Math.max(0, Date.parse(expiresAt) - now);
